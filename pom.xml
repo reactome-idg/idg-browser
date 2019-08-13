@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.reactome.web.idg</groupId>
+  <artifactId>idg-browser</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>IDGBrowser</name>
+  
+  <description>
+  	The IDG browser extend the Reactome browswer in order to implement a view for PathwayFIView
+  </description>
+  
+  <organization>
+    <name>Oregon Health and Science University</name>
+    <url>http://www.ohsu.edu/</url>
+  </organization>
+  
+  <developers>
+  	<developer>
+  		<id>brunsont</id>
+  		<name>Tim Brunson</name>
+  		<email>brunsont@ohsu.edu</email>
+  		<organization>http://www.ohsu.edu/</organization>
+  	</developer>
+  </developers>
+
+  <properties>
+    <!-- Name that will be used to generate the war file -->
+    <fileName>IDGBrowser</fileName>
+    
+    <!-- Convenience property to set the GWT version -->
+    <gwtVersion>2.8.1</gwtVersion>
+    <gwtStyle>OBF</gwtStyle> <!-- OBF | PRETTY | DETAILED -->
+    
+    <gwtVersion>2.8.2</gwtVersion>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <reactome.web.browser>3.6.4</reactome.web.browser>
+    
+    <appModule>org.reactome.web.IDGBrowser</appModule>
+    <appName>${appModule}</appName>
+  </properties>
+
+  <dependencyManagement>
+     <dependencies>
+        <dependency>
+            <groupId>org.reactome.web.pwp</groupId>
+            <artifactId>browser</artifactId>
+            <version>${reactome.web.browser}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+     </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwtVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <version>${gwtVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.reactome.web.pwp</groupId>
+      <artifactId>browser</artifactId>
+      <version>${reactome.web.browser}</version>
+      <classifier>classes</classifier>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.name}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>1.0-rc-9</version>
+        <extensions>true</extensions>
+        <configuration>
+          <classpathScope>compile</classpathScope>
+          <moduleName>org.reactome.web.idg.org.reactome.web.idg.IDG</moduleName>
+          <moduleShortName>org.reactome.web.idg.IDG</moduleShortName>
+          <warDir>${project.build.directory}/${project.build.finalName}</warDir>
+          <devmodeWorkDir>${project.build.directory}/${project.build.finalName}</devmodeWorkDir>
+          <startupUrls>
+            <startupUrl>
+              org.reactome.web.idg.IDG.html
+            </startupUrl>
+          </startupUrls>
+          <compilerArgs>
+            <arg>-generateJsInteropExports</arg>
+          </compilerArgs>
+          <useCompilerArgsForTests>true</useCompilerArgsForTests>
+          <codeserverArgs>
+            <arg>-generateJsInteropExports</arg>
+          </codeserverArgs>
+          <devmodeArgs>
+            <arg>-generateJsInteropExports</arg>
+          </devmodeArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+        <executions>
+          <execution>
+            <id>war</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>war</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

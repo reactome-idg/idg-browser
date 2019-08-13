@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='idg-browser'>
+
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User'/>
+
+  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+
+  <!-- Other module inherits                                      -->
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='org.reactome.web.fiview.client.IDGBrowser'/>
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client'/>
+
+
+  <!-- allow Super Dev Mode -->
+  <add-linker name="xsiframe"/>
+</module>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='org.reactome.web.idg.IDG'>
+  <entry-point class='org.reactome.web.idg.client.org.reactome.web.idg.IDG' />
+  <source path='' />
+</module>
