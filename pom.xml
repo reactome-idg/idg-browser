@@ -34,15 +34,13 @@
     <fileName>IDGBrowser</fileName>
     
     <!-- Convenience property to set the GWT version -->
-    <gwtVersion>2.8.1</gwtVersion>
     <gwtStyle>OBF</gwtStyle> <!-- OBF | PRETTY | DETAILED -->
     
-    <gwtVersion>2.8.2</gwtVersion>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-    <reactome.web.browser>3.6.4</reactome.web.browser>
+    <reactome.web.browser>3.6.4-SNAPSHOT</reactome.web.browser>
     
     <appModule>org.reactome.web.IDGBrowser</appModule>
     <appName>${appModule}</appName>
@@ -61,20 +59,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>${gwtVersion}</version>
-      <scope>provided</scope>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>${gwtVersion}</version>
-      <scope>provided</scope>
-    </dependency>
-    
     <dependency>
       <groupId>org.reactome.web.pwp</groupId>
       <artifactId>browser</artifactId>
@@ -133,4 +117,43 @@
       </plugin>
     </plugins>
   </build>
+  
+   <repositories>
+	   <!-- EBI repo -->
+	   <repository>
+	       <id>nexus-ebi-repo</id>
+	       <name>The EBI internal repository</name>
+	       <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
+	       <releases>
+	           <enabled>true</enabled>
+	       </releases>
+	       <snapshots>
+	           <enabled>false</enabled>
+	       </snapshots>
+	   </repository>
+	   <!-- EBI SNAPSHOT repo -->
+	   <repository>
+	       <id>nexus-ebi-snapshot-repo</id>
+	       <name>The EBI internal snapshot repository</name>
+	       <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-snapshots/</url>
+	       <releases>
+	           <enabled>false</enabled>
+	       </releases>
+	       <snapshots>
+	           <enabled>true</enabled>
+	       </snapshots>
+	   </repository>
+	
+	   <repository>
+	       <id>central</id>
+	       <name>Central Repository</name>
+	       <url>http://repo.maven.apache.org/maven2</url>
+	       <layout>default</layout>
+	       <snapshots>
+	           <enabled>false</enabled>
+	       </snapshots>
+	   </repository>
+        
+    </repositories>
+  
 </project>
