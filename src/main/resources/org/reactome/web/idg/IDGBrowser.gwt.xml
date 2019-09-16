@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="idg_browser">
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User' />
+  <inherits name="com.google.gwt.resources.Resources" />
+  
+
+  <!-- Other module inherits                                      -->
+  <inherits name='org.reactome.web.fi.IDGDiagram' />
+  <inherits name='org.reactome.web.pwp.Browser' />
+  
+  <!-- Switch the app entry point class.                         -->
+  <replace-with class="org.reactome.web.idg.client.IDGBrowser">
+      <when-type-is class="org.reactome.web.pwp.client.Browser"/>
+  </replace-with>
+  
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client' />
+  
+    <!-- allow Super Dev Mode -->
+  <add-linker name="xsiframe"/>
+</module>

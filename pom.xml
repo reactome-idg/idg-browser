@@ -6,7 +6,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.reactome.web.idg</groupId>
-  <artifactId>idg-browser</artifactId>
+  <artifactId>idgbrowser</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>IDGBrowser</name>
@@ -30,8 +30,6 @@
   </developers>
 
   <properties>
-    <!-- Name that will be used to generate the war file -->
-    <fileName>IDGBrowser</fileName>
     
     <!-- Convenience property to set the GWT version -->
     <gwtStyle>OBF</gwtStyle> <!-- OBF | PRETTY | DETAILED -->
@@ -42,7 +40,7 @@
     
     <reactome.web.browser>3.6.4-SNAPSHOT</reactome.web.browser>
     
-    <appModule>org.reactome.web.IDGBrowser</appModule>
+    <appModule>org.reactome.web.idg.IDGBrowser</appModule>
     <appName>${appModule}</appName>
   </properties>
 
@@ -59,62 +57,138 @@
   </dependencyManagement>
 
   <dependencies>
+  
+  	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-math3</artifactId>
+		<version>3.6.1</version>
+	</dependency>
+  
     <dependency>
-      <groupId>org.reactome.web.pwp</groupId>
-      <artifactId>browser</artifactId>
-      <version>${reactome.web.browser}</version>
-      <classifier>classes</classifier>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <scope>runtime</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+    	<groupId>org.reactome.web.pwp</groupId>
+    	<artifactId>browser</artifactId>
+    	<version>3.6.4-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+    	<groupId>org.reactome.web</groupId>
+    	<artifactId>idgDiagram</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+	   	<groupId>org.reactome.web</groupId>
+	   	<artifactId>diagram</artifactId>
+	   	<version>3.6.8-SNAPSHOT</version>
+    </dependency>
+ 
   </dependencies>
 
   <build>
-    <finalName>${project.name}</finalName>
+    <!-- Output classes directly into the webapp, so that IDEs and "mvn process-classes" update them in DevMode -->
+    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
+
     <plugins>
+
+     <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>1.0-rc-6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>import-sources</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <moduleName>${appModule}</moduleName>
+                    <moduleShortName>${appName}</moduleShortName>
+                    <failOnError>true</failOnError>
+                    <compilerArgs>
+                        <arg>-compileReport</arg>
+                        <arg>-XcompilerMetrics</arg>
+                        <arg>-optimize</arg>
+                        <arg>9</arg>
+                        <arg>-style</arg>
+                        <arg>${gwtStyle}</arg>
+                    </compilerArgs>
+                    <devmodeArgs>
+                        <arg>-bindAddress</arg>
+                        <arg>0.0.0.0</arg>
+                    </devmodeArgs>
+                    <codeserverArgs>
+                        <arg>-bindAddress</arg>
+                        <arg>0.0.0.0</arg>
+                        <arg>-gen</arg>
+                        <arg>${project.build.directory}/.generated</arg>
+                    </codeserverArgs>
+                    <warDir>${project.build.directory}/${project.build.finalName}</warDir>
+                    <classpathScope>compile+runtime</classpathScope>
+                    <startupUrls>
+                        <startupUrl>index.html</startupUrl>
+                    </startupUrls>
+                </configuration>
+            </plugin>
+      
+      <!-- Copy static web files before executing gwt:run -->
       <plugin>
-        <groupId>net.ltgt.gwt.maven</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.0-rc-9</version>
-        <extensions>true</extensions>
-        <configuration>
-          <classpathScope>compile</classpathScope>
-          <moduleName>org.reactome.web.idg.org.reactome.web.idg.IDG</moduleName>
-          <moduleShortName>org.reactome.web.idg.IDG</moduleShortName>
-          <warDir>${project.build.directory}/${project.build.finalName}</warDir>
-          <devmodeWorkDir>${project.build.directory}/${project.build.finalName}</devmodeWorkDir>
-          <startupUrls>
-            <startupUrl>
-              org.reactome.web.idg.IDG.html
-            </startupUrl>
-          </startupUrls>
-          <compilerArgs>
-            <arg>-generateJsInteropExports</arg>
-          </compilerArgs>
-          <useCompilerArgsForTests>true</useCompilerArgsForTests>
-          <codeserverArgs>
-            <arg>-generateJsInteropExports</arg>
-          </codeserverArgs>
-          <devmodeArgs>
-            <arg>-generateJsInteropExports</arg>
-          </devmodeArgs>
-        </configuration>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.1.1</version>
+          <executions>
+              <execution>
+                  <phase>compile</phase>
+                  <goals>
+                      <goal>exploded</goal>
+                  </goals>
+              </execution>
+          </executions>
+          <configuration>
+              <webappDirectory>${webappDirectory}</webappDirectory>
+          </configuration>
       </plugin>
+      
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-        <executions>
-          <execution>
-            <id>war</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>war</goal>
-            </goals>
-          </execution>
-        </executions>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.4</version>
+          <executions>
+              <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                      <goal>jar</goal>
+                  </goals>
+              </execution>
+          </executions>
       </plugin>
+      
     </plugins>
   </build>
   
