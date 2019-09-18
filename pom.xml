@@ -93,18 +93,18 @@
     	<groupId>org.reactome.web.pwp</groupId>
     	<artifactId>browser</artifactId>
     	<version>3.6.4-SNAPSHOT</version>
+    	<exclusions>
+    		<exclusion>
+    			<groupId>org.reactome.web</groupId>
+    			<artifactId>diagram</artifactId>
+    		</exclusion>
+    	</exclusions>
     </dependency>
     
     <dependency>
     	<groupId>org.reactome.web</groupId>
-    	<artifactId>idgDiagram</artifactId>
+    	<artifactId>idg-diagram</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
-	   	<groupId>org.reactome.web</groupId>
-	   	<artifactId>diagram</artifactId>
-	   	<version>3.6.8-SNAPSHOT</version>
     </dependency>
  
   </dependencies>
