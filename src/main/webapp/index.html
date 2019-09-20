@@ -1,26 +1,90 @@
 <!doctype html>
+
+<!--suppress ALL -->
 <html>
-  <head>
+<head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="Description" content="A Systems Biology Graphical Notation (SBGN)-based interface, that supports zooming, scrolling and event highlighting. It exploits the PSICQUIC web services to overlay molecular interaction data from the Reactome Functional Interaction Network and external interaction databases such as IntAct, ChEMBL, BioGRID and iRefIndex">
 
-	<link type="text/css" rel="stylesheet" href="index.css">
- 
-    <title>IDG Browser Extension</title>
+    <link type="text/css" rel="stylesheet" href="index.css?v=170902">
+    <link href="/templates/favourite/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 
-    <script type="text/javascript" src="idg_browser/idg_browser.nocache.js"></script>
-  </head>
+    <title>Reactome | Pathway Browser</title>
 
-  <body>
-  
-  	<!-- OPTIONAL: include this if you want history support -->
-    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-  
+    <!--PathwayPortal-->
+    <script type="text/javascript" language="javascript" src="config.js"></script>
+    <script type="text/javascript" language="javascript" src="Browser/Browser.nocache.js"></script>
+
+    <!--GXA dependencies-->
+    <script language="JavaScript" type="text/javascript" src="https://www.ebi.ac.uk/gxa/resources/js-bundles/vendorCommons.bundle.js"></script>
+    <script language="JavaScript" type="text/javascript" src="https://www.ebi.ac.uk/gxa/resources/js-bundles/expressionAtlasHeatmapHighcharts.bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://www.ebi.ac.uk/gxa/resources/css/alt-customized-bootstrap-3.3.5.css">
+
+    <!-- Google Universal Analytics -->
+    <script type="text/javascript" language="JavaScript" src="https://www.google-analytics.com/analytics.js"></script>
+
+    <!-- PDBe dependencies (https is used because the protocol is taken into account inside 'essential.js' for configuration)  -->
+    <script type="text/javascript" language="javascript" src="https://www.ebi.ac.uk/pdbe-apps/widgets/js/essential.js"></script>
+    <script type="text/javascript" language="javascript" src="https://www.ebi.ac.uk/pdbe-apps/widgets/js/basic.js"></script>
+    <script type="text/javascript" language="javascript" src="https://www.ebi.ac.uk/pdbe-apps/widgets/js/pdbprints.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.ebi.ac.uk/pdbe-apps/widgets/css/pdbprints.css"/>
+
+    <!-- GenomeSpace -->
+    <script type="text/javascript" language="JavaScript" src="https://gsui.genomespace.org/jsui/js/jquery-1.7.2.min.js" defer></script>
+    <script type="text/javascript" language="JavaScript" src="https://gsui.genomespace.org/jsui/upload/gsuploadwindow.js" defer></script>
+
+    <!-- Scripts for ParticipatingMolecules download, FileSaver (sometimes) needs Blob as -->
+    <!-- the standard W3C File API Blob interface is not available in all browsers. -->
+    <!-- Blob.js is a cross-browser Blob implementation that solves this. -->
+    <!-- https://github.com/eligrey/FileSaver.js/blob/master/README.md -->
+    <script type="text/javascript" language="JavaScript" src="static/js/FileSaver.js"></script>
+    <script type="text/javascript" language="JavaScript" src="static/js/Blob.js"></script>
+</head>
+
+<body>
+    <div id="appLoadMessage" class="app-Loader">
+        <div class="logoDiv">
+            <img class="logoIcon" src="static/images/logo.png" alt="Reactome logo">
+        </div>
+        <div class="loaderDiv">
+            <img class="loaderIcon" src="static/images/loader_lines.gif" alt="loading..."> Please wait while loading the pathway browser...
+        </div>
+    </div>
+
+    <div id="appErrorMessage" class="app-Outage" style="display:none">
+        <div class="headerDiv">
+            <img class="headerLogo"src="static/images/logo.png" alt="Reactome logo">
+        </div>
+        <div class="mainDiv">
+            <div class="outageIconDiv">
+                <img src="static/images/outage_icon.png" alt="Reactome outage icon">
+            </div>
+            <div class="outageMessageDiv">
+                <div class="outageMessageTitle">Ooops!</div>
+                <div class="outageMessageSubtitle">This is unexpected...</div>
+                <div class="outageMessageText">
+                    <p>An error has occured and we are working to fix the problem.
+                        We'll be up and running shortly.<br>
+                        Thank you for your patience.<br>
+                        If you need immediate assistance please contact
+                        <a href="mailto:help@reactome.org">help@reactome.org</a>.
+                    </p>
+                </div>
+                <button class="retryButton" onclick="window.location.reload(true);">Try again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- history support -->
+    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
+            style="position:absolute;width:0;height:0;border:0"></iframe>
+
+    <!-- This app requires JavaScript enabled -->
     <noscript>
-      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
-        Your web browser must have JavaScript enabled
-        in order for this application to display correctly.
-      </div>
+        <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: Arial Unicode MS, Arial, sans-serif; font-size: larger;">
+            Your web browser must have JavaScript enabled
+            in order for this application to display correctly.
+        </div>
     </noscript>
-
-  </body>
+</body>
 </html>
