@@ -29,10 +29,10 @@
             <param-value>80</param-value>
         </init-param>
         <!-- ONLY when connecting to localhost -->
-        <!--<init-param>-->
-            <!--<param-name>proxyProtocol</param-name>-->
-            <!--<param-value>http</param-value>-->
-        <!--</init-param>-->
+         <init-param>
+            <param-name>proxyProtocol</param-name>
+            <param-value>http</param-value>
+        </init-param>
         <init-param>
             <param-name>proxyPath</param-name>
             <!--<param-value>/</param-value>-->
