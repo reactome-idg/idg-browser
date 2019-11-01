@@ -8,8 +8,8 @@ public class IDGBrowser extends Browser {
 	
 	static {
         DiagramFactory.setDiagramViewerCreator(() -> new IdgDiagramViewerImpl());
-        DiagramFactory.INTERACTORS_INITIAL_RESOURCE = null;
-        DiagramFactory.INTERACTORS_INITIAL_RESOURCE_NAME = null;
+        DiagramFactory.INTERACTORS_INITIAL_RESOURCE = "null";
+        DiagramFactory.INTERACTORS_INITIAL_RESOURCE_NAME = "null";
     }
 	
 	
