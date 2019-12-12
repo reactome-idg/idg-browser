@@ -7,7 +7,7 @@
 	<groupId>org.reactome.web.idg</groupId>
 	<artifactId>idg-browser</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>IDGBrowser</name>
 
 	<description>
@@ -177,6 +177,7 @@
 			</plugin>
 
 		</plugins>
+		<finalName>PathwayBrowser</finalName>
 	</build>
 
 	<repositories>
