@@ -2,11 +2,15 @@ package org.reactome.web.idg.client.fireworks;
 
 import java.util.List;
 
-import com.google.gwt.dev.json.JsonObject;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 
+/**
+ * 
+ * @author brunsont
+ *
+ */
 public class EnrichedPathwaysPostData {
 
 	String gene;
