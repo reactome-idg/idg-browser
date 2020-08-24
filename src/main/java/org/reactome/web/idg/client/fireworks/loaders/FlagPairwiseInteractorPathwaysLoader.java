@@ -36,7 +36,7 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		if(request != null && request.isPending())
 			request.cancel();
 		
-		String url = BASE_URL + "/relationships/enrichedSecondaryPathwaysForGene";
+		String url = BASE_URL + "relationships/enrichedSecondaryPathwaysForGene";
 		EnrichedPathwaysPostData post = new EnrichedPathwaysPostData(term, dataDescs);
 		String postString = post.toJSON();
 		
@@ -68,8 +68,8 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		JSONArray val = JSONParser.parseStrict(text).isArray();
 		for(int i=0; i<val.size(); i++) {
 			JSONObject pathway = val.get(i).isObject();
-			if(pathway.get("fdr").isNumber().doubleValue() > new Double(0.05))
-				continue;
+//			if(pathway.get("fdr").isNumber().doubleValue() > 0.05d) //TODO: remove filtering for now for consistency with home page.
+//				continue;
 			rtn.add(pathway.get("stId").isString().stringValue());
 		}
 		

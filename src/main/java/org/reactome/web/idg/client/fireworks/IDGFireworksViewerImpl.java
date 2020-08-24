@@ -35,6 +35,7 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl {
 		FlagPairwiseInteractorPathwaysLoader.findPathwaysToFlag(term, dataDescs, new Handler() {
 			@Override
 			public void onPathwaysToFlag(List<String> stIds) {
+				if(stIds.size() == 0) return;
 				flagPathways(stIds, new ArrayList<>());
 			}
 			@Override
