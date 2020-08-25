@@ -26,6 +26,7 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl {
 			return;
 		}
 		//first token is gene term and the rest are data descriptions to narrow interactors
+		identifier.replaceAll("%7C", "|");
 		String[] tokens = identifier.split(",");
 		String term = tokens[0];
 		List<String> dataDescs = Arrays.asList(Arrays.copyOfRange(tokens, 1, tokens.length));
