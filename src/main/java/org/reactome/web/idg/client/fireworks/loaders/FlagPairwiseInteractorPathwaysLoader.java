@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.reactome.web.fi.data.loader.PairwiseInfoService;
 import org.reactome.web.idg.client.fireworks.EnrichedPathwaysPostData;
 
 import com.google.gwt.http.client.Request;
@@ -36,7 +37,11 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		if(request != null && request.isPending())
 			request.cancel();
 		
-		String url = BASE_URL + "relationships/enrichedSecondaryPathwaysForGene";
+		String url = BASE_URL;
+		if(!PairwiseInfoService.getGeneToUniprotMap().containsValue(term)) //if not, enrich for gene
+			url += "relationships/enrichedSecondaryPathwaysForGene";
+		else url += "relationships/enrichedSecondaryPathwaysForUniprot"; //else enrich for uniprot
+		
 		EnrichedPathwaysPostData post = new EnrichedPathwaysPostData(term, dataDescs);
 		String postString = post.toJSON();
 		
