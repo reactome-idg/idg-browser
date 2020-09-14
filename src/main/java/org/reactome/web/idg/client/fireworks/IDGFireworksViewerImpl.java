@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.reactome.web.fireworks.client.FireworksViewerImpl;
+import org.reactome.web.fireworks.legends.BottomContainerPanel;
+import org.reactome.web.fireworks.legends.FlaggedItemsControl;
 import org.reactome.web.idg.client.fireworks.loaders.FlagPairwiseInteractorPathwaysLoader;
 import org.reactome.web.idg.client.fireworks.loaders.FlagPairwiseInteractorPathwaysLoader.Handler;
 
@@ -17,6 +19,13 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl {
 
 	public IDGFireworksViewerImpl(String json) {
 		super(json);
+		BottomContainerPanel panel = super.canvases.getBottomContainerPanel();
+		for(int i=0; i<panel.getWidgetCount(); i++) {
+			if(panel.getWidget(i) instanceof FlaggedItemsControl)
+				panel.remove(i);
+		}
+		panel.add(new FireworksFlaggedInteractorSetLegend(eventBus));
+		panel.add(new IDGFlaggedItemsControl(eventBus));
 	}
 
 	@Override
