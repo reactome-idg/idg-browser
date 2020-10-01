@@ -37,23 +37,21 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		if(request != null && request.isPending())
 			request.cancel();
 		
-		String url = BASE_URL;
-		if(!PairwiseInfoService.getGeneToUniprotMap().containsValue(term)) //if not, enrich for gene
-			url += "relationships/enrichedSecondaryPathwaysForGene";
-		else url += "relationships/enrichedSecondaryPathwaysForUniprot"; //else enrich for uniprot
+		String url = BASE_URL + "relationships/enrichedSecondaryPathwaysForTerm";
 		
 		EnrichedPathwaysPostData post = new EnrichedPathwaysPostData(term, dataDescs);
-		String postString = post.toJSON();
 		
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
 		requestBuilder.setHeader("Accept", "application/json");
 		requestBuilder.setHeader("content-type", "application/json");
 		try {
-			request = requestBuilder.sendRequest(postString, new RequestCallback() {
+			request = requestBuilder.sendRequest(post.toJSON(), new RequestCallback() {
 				@Override
 				public void onResponseReceived(Request request, Response response) {
-					if(response.getStatusCode() != Response.SC_OK)
+					if(response.getStatusCode() != Response.SC_OK) {
 						handler.onPathwaysToFlagError();
+						return;
+					}
 					handler.onPathwaysToFlag(parsePathwaysToFlag(response.getText()));
 				}
 				@Override
