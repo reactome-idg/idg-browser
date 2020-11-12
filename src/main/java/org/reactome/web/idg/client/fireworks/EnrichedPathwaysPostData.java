@@ -13,24 +13,24 @@ import com.google.gwt.json.client.JSONString;
  */
 public class EnrichedPathwaysPostData {
 
-	String gene;
+	String term;
 	private List<String> dataDescs;
 	
 	public EnrichedPathwaysPostData() {
 		
 	}
 	
-	public EnrichedPathwaysPostData(String gene, List<String> dataDescs) {
-		this.gene = gene;
+	public EnrichedPathwaysPostData(String term, List<String> dataDescs) {
+		this.term = term;
 		this.dataDescs = dataDescs;
 	}
 
-	public String getGene() {
-		return gene;
+	public String getTerm() {
+		return term;
 	}
 
-	public void setGene(String gene) {
-		this.gene = gene;
+	public void setTerm(String term) {
+		this.term = term;
 	}
 
 	public List<String> getDataDescs() {
@@ -43,7 +43,7 @@ public class EnrichedPathwaysPostData {
 	
 	public String toJSON() {
 		JSONObject rtn = new JSONObject();
-		rtn.put("gene", new JSONString(this.gene));
+		rtn.put("term", new JSONString(this.term));
 		JSONArray descJSON = new JSONArray();
 		dataDescs.forEach(d -> {
 			descJSON.set(descJSON.size(), new JSONString(d));
