@@ -3,6 +3,7 @@ package org.reactome.web.idg.client.fireworks;
 import java.util.List;
 
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 
@@ -14,15 +15,17 @@ import com.google.gwt.json.client.JSONString;
 public class EnrichedPathwaysPostData {
 
 	String term;
-	private List<String> dataDescs;
+	private List<Integer> dataDescKeys;
+	Double prd;
 	
 	public EnrichedPathwaysPostData() {
 		
 	}
 	
-	public EnrichedPathwaysPostData(String term, List<String> dataDescs) {
+	public EnrichedPathwaysPostData(String term, List<Integer> dataDescKeys, Double prd) {
 		this.term = term;
-		this.dataDescs = dataDescs;
+		this.dataDescKeys = dataDescKeys;
+		this.prd = prd;
 	}
 
 	public String getTerm() {
@@ -33,22 +36,33 @@ public class EnrichedPathwaysPostData {
 		this.term = term;
 	}
 
-	public List<String> getDataDescs() {
-		return dataDescs;
+	public List<Integer> getDataDescKeys() {
+		return dataDescKeys;
 	}
 
-	public void setDataDescs(List<String> dataDescs) {
-		this.dataDescs = dataDescs;
+	public void setDataDescKeys(List<Integer> dataDescKeys) {
+		this.dataDescKeys = dataDescKeys;
 	}
 	
+	public Double getPrd() {
+		return prd;
+	}
+
+	public void setPrd(Double prd) {
+		this.prd = prd;
+	}
+
 	public String toJSON() {
 		JSONObject rtn = new JSONObject();
 		rtn.put("term", new JSONString(this.term));
 		JSONArray descJSON = new JSONArray();
-		dataDescs.forEach(d -> {
-			descJSON.set(descJSON.size(), new JSONString(d));
+		dataDescKeys.forEach(d -> {
+			descJSON.set(descJSON.size(), new JSONNumber(d));
 		});
-		rtn.put("dataDescs", descJSON);
+		rtn.put("dataDescKeys", descJSON);
+		
+		if(prd != null)
+			rtn.put("prd", new JSONNumber(prd));
 		
 		return rtn.toString();
 	}

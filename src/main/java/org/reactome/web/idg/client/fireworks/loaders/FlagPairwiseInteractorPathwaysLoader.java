@@ -3,10 +3,8 @@ package org.reactome.web.idg.client.fireworks.loaders;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
-import org.reactome.web.fi.data.loader.PairwiseInfoService;
 import org.reactome.web.idg.client.fireworks.EnrichedPathwaysPostData;
 
 import com.google.gwt.http.client.Request;
@@ -33,13 +31,13 @@ public class FlagPairwiseInteractorPathwaysLoader {
 	private static final String BASE_URL = "/idgpairwise/";
 	private static Request request;
 	
-	public static void findPathwaysToFlag(String term, List<String> dataDescs, Handler handler) {
+	public static void findPathwaysToFlag(String term, List<Integer> dataDescs, Double prd, Handler handler) {
 		if(request != null && request.isPending())
 			request.cancel();
 		
 		String url = BASE_URL + "relationships/enrichedSecondaryPathwaysForTerm";
 		
-		EnrichedPathwaysPostData post = new EnrichedPathwaysPostData(term, dataDescs);
+		EnrichedPathwaysPostData post = new EnrichedPathwaysPostData(term, dataDescs, prd);
 		
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
 		requestBuilder.setHeader("Accept", "application/json");
