@@ -13,6 +13,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 
@@ -26,6 +27,11 @@ public class FlagPairwiseInteractorPathwaysLoader {
 	public interface Handler {
 		void onPathwaysToFlag(List<String>stIds);
 		void onPathwaysToFlagError();
+	}
+	
+	public interface DataDescKeysHandler {
+		void onDataDescsRecieved(List<String> dataDescs);
+		void onDataDescsRecievedError();
 	}
 	
 	private static final String BASE_URL = "/idgpairwise/";
@@ -60,6 +66,41 @@ public class FlagPairwiseInteractorPathwaysLoader {
 			});
 		} catch(RequestException ex) {
 			handler.onPathwaysToFlagError();
+		}
+	}
+	
+	public static void findDataDescsForKeys(List<Integer> dataDescKeys, DataDescKeysHandler handler) {
+		String url = BASE_URL + "relationships/dataDescsForKeys";
+		
+		//build post data
+		JSONArray keys = new JSONArray();
+		for(Integer key : dataDescKeys) {
+			keys.set(keys.size(), new JSONNumber(key));
+		}
+		
+		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
+		requestBuilder.setHeader("Accept", "applicaton/json");
+		requestBuilder.setHeader("content-type", "application/json");
+		try {
+			Request request = requestBuilder.sendRequest(keys.toString(), new RequestCallback() {
+
+				@Override
+				public void onResponseReceived(Request request, Response response) {
+					List<String> dataDescs = new ArrayList<>();
+					JSONArray dataDescArray = JSONParser.parseStrict(response.getText()).isArray();
+					for(int i=0; i<dataDescArray.size(); i++) {
+						dataDescs.add(dataDescArray.get(i).isString().stringValue());
+					}
+					handler.onDataDescsRecieved(dataDescs);
+				}
+
+				@Override
+				public void onError(Request request, Throwable exception) {
+					handler.onDataDescsRecievedError();
+				}
+			});
+		} catch(RequestException ex) {
+			handler.onDataDescsRecievedError();
 		}
 	}
 	

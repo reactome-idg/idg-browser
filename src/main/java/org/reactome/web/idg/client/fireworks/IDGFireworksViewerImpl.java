@@ -10,6 +10,7 @@ import org.reactome.web.fi.data.manager.StateTokenHelper;
 import org.reactome.web.fireworks.client.FireworksViewerImpl;
 import org.reactome.web.fireworks.legends.BottomContainerPanel;
 import org.reactome.web.fireworks.legends.FlaggedItemsControl;
+import org.reactome.web.idg.client.fireworks.events.SetFIFlagDataDescKeysEvent;
 import org.reactome.web.idg.client.fireworks.loaders.FlagPairwiseInteractorPathwaysLoader;
 import org.reactome.web.idg.client.fireworks.loaders.FlagPairwiseInteractorPathwaysLoader.Handler;
 
@@ -24,6 +25,9 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl {
 
 	private StateTokenHelper stHelper;
 	
+	private List<Integer> dataDescKeys;
+	private Double prd;
+	
 	public IDGFireworksViewerImpl(String json) {
 		super(json);
 		stHelper = new StateTokenHelper();
@@ -35,8 +39,6 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl {
 		panel.add(new FireworksFlaggedInteractorSetLegend(eventBus));
 		panel.add(new IDGFlaggedItemsControl(eventBus));
 	}
-	
-	
 
 	@Override
 	public void onNodeFlaggedReset() {
@@ -59,16 +61,17 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl {
 		Map<String, String> tokenMap = stHelper.buildTokenMap(History.getToken());
 		
 		//get dataDescription keys from "DSKEYS"
-		List<Integer> dataDescKeys = Arrays.stream(tokenMap.get("DSKEYS").split(",")).map(num -> Integer.parseInt(num)).collect(Collectors.toList());
+		dataDescKeys = Arrays.stream(tokenMap.get("DSKEYS").split(",")).map(num -> Integer.parseInt(num)).collect(Collectors.toList());
 		
 		//if SIGCUTOFF is not on map, add to prd, otherwise will be null
-		Double prd = tokenMap.get("SIGCUTOFF") != null ? Double.parseDouble(tokenMap.get("SIGCUTOFF")):null;
+		prd = tokenMap.get("SIGCUTOFF") != null ? Double.parseDouble(tokenMap.get("SIGCUTOFF")):null;
 		
 		//Make server call
 		FlagPairwiseInteractorPathwaysLoader.findPathwaysToFlag(identifier, dataDescKeys, prd, new Handler() {
 			@Override
 			public void onPathwaysToFlag(List<String> stIds) {
 				if(stIds.size() == 0) return;
+				eventBus.fireEventFromSource(new SetFIFlagDataDescKeysEvent(dataDescKeys), this);
 				flagPathways(stIds, new ArrayList<>());
 			}
 			@Override
