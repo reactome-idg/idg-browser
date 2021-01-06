@@ -69,7 +69,7 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		}
 	}
 	
-	public static void findDataDescsForKeys(List<Integer> dataDescKeys, DataDescKeysHandler handler) {
+	public static void findDataDescsForKeys(List<Integer> dataDescKeys, DataDescKeysHandler dataDescKeysHandler) {
 		String url = BASE_URL + "relationships/dataDescsForKeys";
 		
 		//build post data
@@ -79,7 +79,6 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		}
 		
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
-		requestBuilder.setHeader("Accept", "applicaton/json");
 		requestBuilder.setHeader("content-type", "application/json");
 		try {
 			Request request = requestBuilder.sendRequest(keys.toString(), new RequestCallback() {
@@ -91,16 +90,16 @@ public class FlagPairwiseInteractorPathwaysLoader {
 					for(int i=0; i<dataDescArray.size(); i++) {
 						dataDescs.add(dataDescArray.get(i).isString().stringValue());
 					}
-					handler.onDataDescsRecieved(dataDescs);
+					dataDescKeysHandler.onDataDescsRecieved(dataDescs);
 				}
 
 				@Override
 				public void onError(Request request, Throwable exception) {
-					handler.onDataDescsRecievedError();
+					dataDescKeysHandler.onDataDescsRecievedError();
 				}
 			});
 		} catch(RequestException ex) {
-			handler.onDataDescsRecievedError();
+			dataDescKeysHandler.onDataDescsRecievedError();
 		}
 	}
 	

@@ -102,6 +102,7 @@ public class IDGFlaggedItemsControl extends FlaggedItemsControl implements SetFI
 			StateTokenHelper helper = new StateTokenHelper();
 			prdInput.setValue(helper.buildTokenMap(History.getToken()).get("SIGCUTOFF"));
 		}
+		else prdInput.setVisible(false);
 	}
 	
 	public static IDGResources IDGRESOURCES;
