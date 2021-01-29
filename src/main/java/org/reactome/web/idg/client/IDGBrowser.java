@@ -19,6 +19,10 @@ public class IDGBrowser extends Browser {
         DiagramFactory.INTERACTORS_INITIAL_RESOURCE = "null";
         DiagramFactory.INTERACTORS_INITIAL_RESOURCE_NAME = "null";
     }
-	
-	
+
+	@Override
+	protected void initConfig() {
+		super.initConfig();
+		FireworksFactory.SHOW_FOAM_BTN = false;
+	}
 }
