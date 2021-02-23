@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.reactome.web.idg.client.fireworks.EnrichedPathwaysPostData;
+import org.reactome.web.idg.client.fireworks.model.PathwayEnrichmentResult;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -25,7 +27,7 @@ import com.google.gwt.json.client.JSONParser;
 public class FlagPairwiseInteractorPathwaysLoader {
 
 	public interface Handler {
-		void onPathwaysToFlag(List<String>stIds);
+		void onPathwaysToFlag(List<PathwayEnrichmentResult>stIds);
 		void onPathwaysToFlagError();
 	}
 	
@@ -81,7 +83,7 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
 		requestBuilder.setHeader("content-type", "application/json");
 		try {
-			Request request = requestBuilder.sendRequest(keys.toString(), new RequestCallback() {
+			requestBuilder.sendRequest(keys.toString(), new RequestCallback() {
 
 				@Override
 				public void onResponseReceived(Request request, Response response) {
@@ -103,18 +105,19 @@ public class FlagPairwiseInteractorPathwaysLoader {
 		}
 	}
 	
-	private static List<String> parsePathwaysToFlag(String text) {
-		Set<String> rtn = new HashSet<>();
+	private static List<PathwayEnrichmentResult> parsePathwaysToFlag(String text) {
+		List<PathwayEnrichmentResult> rtn = new ArrayList<>();
 		
 		JSONArray val = JSONParser.parseStrict(text).isArray();
 		for(int i=0; i<val.size(); i++) {
 			JSONObject pathway = val.get(i).isObject();
-//			if(pathway.get("fdr").isNumber().doubleValue() > 0.05d) //TODO: remove filtering for now for consistency with home page.
-//				continue;
-			rtn.add(pathway.get("stId").isString().stringValue());
+			rtn.add(new PathwayEnrichmentResult(pathway.get("stId").isString().stringValue(),
+														   pathway.get("name").isString().stringValue(),
+														   pathway.get("fdr").isNumber().doubleValue(),
+														   pathway.get("pVal").isNumber().doubleValue()));
 		}
 		
-		return new ArrayList<>(rtn);
+		return rtn;
 	}
 	
 }
