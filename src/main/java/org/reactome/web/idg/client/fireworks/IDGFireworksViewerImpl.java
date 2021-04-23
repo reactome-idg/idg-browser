@@ -13,6 +13,7 @@ import org.reactome.web.fi.data.manager.StateTokenHelper;
 import org.reactome.web.fireworks.client.FireworksViewerImpl;
 import org.reactome.web.fireworks.events.NodeFlaggedEvent;
 import org.reactome.web.fireworks.events.NodeFlaggedResetEvent;
+import org.reactome.web.fireworks.events.ShowReacfoamButtonEvent;
 import org.reactome.web.fireworks.legends.BottomContainerPanel;
 import org.reactome.web.fireworks.legends.FlaggedItemsControl;
 import org.reactome.web.fireworks.model.Edge;
@@ -49,9 +50,9 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl implements Value
 			if(panel.getWidget(i) instanceof FlaggedItemsControl)
 				panel.remove(i);
 		}
-		panel.add(new FireworksFlaggedInteractorSetLegend(eventBus));
-		panel.add(new IDGFlaggedItemsControl(eventBus));
+		panel.add(new IDGPathwayFlaggingPanel(eventBus));
 		History.addValueChangeHandler(this);
+		eventBus.fireEventFromSource(new ShowReacfoamButtonEvent(true), this);
 	}
 	
 	@Override
@@ -65,6 +66,7 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl implements Value
 	@Override
 	public void onNodeFlaggedReset() {
 		super.onNodeFlaggedReset();
+		eventBus.fireEventFromSource(new ShowReacfoamButtonEvent(true), this);
 		Map<String, String> tokenMap = stHelper.buildTokenMap(History.getToken());
 		tokenMap.remove("DSKEYS");
 		tokenMap.remove("SIGCUTOFF");
@@ -76,9 +78,12 @@ public class IDGFireworksViewerImpl extends FireworksViewerImpl implements Value
 	protected void findPathwaysToFlag(String identifier, Boolean includeInteractors) {
 		//if not include interactors, super methods can handle everything
 		if(!includeInteractors) {
+			eventBus.fireEventFromSource(new ShowReacfoamButtonEvent(true), this);
 			super.findPathwaysToFlag(identifier, includeInteractors);
 			return;
 		}
+		eventBus.fireEventFromSource(new ShowReacfoamButtonEvent(false), this);
+
 		
 		Map<String, String> tokenMap = stHelper.buildTokenMap(History.getToken());
 		if(!doFlag(tokenMap)) { 

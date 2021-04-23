@@ -10,7 +10,6 @@ import org.reactome.web.idg.client.fireworks.events.SetFIFlagDataDescKeysEvent;
 import org.reactome.web.idg.client.fireworks.handlers.SetFIFlagDataDescKeysHandler;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -106,6 +105,9 @@ public class IDGFlaggedItemsControl extends FlaggedItemsControl implements SetFI
 		controlPanel.add(fdrPanel);
 		fdrPanel.setVisible(true);
 		
+		
+		controlPanel.setVisible(false);
+		this.getElement().getStyle().setHeight(28, Unit.PX);
 		super.add(controlPanel);
 		
 		eventBus.addHandler(SetFIFlagDataDescKeysEvent.TYPE, this);
@@ -139,8 +141,14 @@ public class IDGFlaggedItemsControl extends FlaggedItemsControl implements SetFI
 		super.includeInteractors = event.getIncludeInteractors();
 		
 		//controlPanel shouldnt be visible when there are no interactors
-		if(includeInteractors) controlPanel.setVisible(true);
-		else controlPanel.setVisible(false);
+		if(includeInteractors) {
+			this.getElement().getStyle().setHeight(56, Unit.PX);
+			controlPanel.setVisible(true);
+		}
+		else {
+			this.getElement().getStyle().setHeight(28, Unit.PX);
+			controlPanel.setVisible(false);
+		}
 		
 		String msg;
 		//There is a case where the DiagramObjectsFlaggedEvent gets fired with a null value for getFlaggedItems();
