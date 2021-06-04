@@ -69,14 +69,14 @@ HasMouseOutHandlers, NodeFlaggedHandler, NodeFlaggedResetHandler, NodeFlagReques
 		
 		for(AbsolutePanel panel : panels) this.add(panel);
 		
-		this.addMouseOverHandler(e -> {
-			if(interactorsIncluded) legend.setVisible(true);
-			control.setVisible(true);
-		});
-		
-		this.addMouseOutHandler(e -> {
-			panels.forEach(p -> p.setVisible(false));
-		});
+//		this.addMouseOverHandler(e -> {
+//			if(interactorsIncluded) legend.setVisible(true);
+//			control.setVisible(true);
+//		});
+//		
+//		this.addMouseOutHandler(e -> {
+//			panels.forEach(p -> p.setVisible(false));
+//		});
 	}
 	
 	@Override
@@ -96,13 +96,13 @@ HasMouseOutHandlers, NodeFlaggedHandler, NodeFlaggedResetHandler, NodeFlagReques
 
 	@Override
 	public void onNodeFlagged(NodeFlaggedEvent event) {
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				panels.forEach(p -> p.setVisible(false));
-			}
-		};
-		timer.schedule(3000);
+//		Timer timer = new Timer() {
+//			@Override
+//			public void run() {
+//				panels.forEach(p -> p.setVisible(false));
+//			}
+//		};
+//		timer.schedule(3000);
 		
 	}
 
