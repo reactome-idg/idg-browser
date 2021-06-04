@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>org.reactome.web.pwp</groupId>
 			<artifactId>browser</artifactId>
-			<version>3.7.1</version>
+			<version>3.7.3</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.reactome.web</groupId>
