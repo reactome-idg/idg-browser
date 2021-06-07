@@ -18,6 +18,8 @@ public class IDGBrowser extends Browser {
         DiagramFactory.setDiagramViewerCreator(() -> new IdgDiagramViewerImpl());
         DiagramFactory.INTERACTORS_INITIAL_RESOURCE = "null";
         DiagramFactory.INTERACTORS_INITIAL_RESOURCE_NAME = "null";
+        GA_TOKEN = "UA-42985898-5";
+        GA_DOMAIN = "idg.reactome.org";
     }
 	
 	
