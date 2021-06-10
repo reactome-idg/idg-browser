@@ -14,6 +14,7 @@ import org.reactome.web.pwp.client.Browser;
 public class IDGBrowser extends Browser {
 	
 	static {
+        DiagramFactory.WATERMARK_BASE_URL = "https://idg.reactome.org/PathwayBrowser/";
 		FireworksFactory.setFireworksViewerCreator(json -> new IDGFireworksViewerImpl(json));
         DiagramFactory.setDiagramViewerCreator(() -> new IdgDiagramViewerImpl());
         DiagramFactory.INTERACTORS_INITIAL_RESOURCE = "null";
